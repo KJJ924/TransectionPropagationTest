@@ -1,4 +1,4 @@
-package study.jpatransactional.controller;
+package study.jpatransactional.propagation.controller;
 
 import java.util.List;
 import lombok.Getter;
@@ -7,11 +7,11 @@ import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import study.jpatransactional.dao.MemberRepository;
-import study.jpatransactional.dao.TestMemberRepository;
-import study.jpatransactional.domain.Member;
-import study.jpatransactional.domain.TestMember;
-import study.jpatransactional.service.SimpleService;
+import study.jpatransactional.propagation.dao.MemberRepository;
+import study.jpatransactional.propagation.dao.TestMemberRepository;
+import study.jpatransactional.propagation.domain.Member;
+import study.jpatransactional.propagation.domain.TestMember;
+import study.jpatransactional.propagation.service.SimpleService;
 
 @RestController
 @RequiredArgsConstructor

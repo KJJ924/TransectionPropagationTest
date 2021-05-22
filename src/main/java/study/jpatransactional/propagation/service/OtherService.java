@@ -1,4 +1,4 @@
-package study.jpatransactional.service;
+package study.jpatransactional.propagation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-import study.jpatransactional.dao.TestMemberRepository;
-import study.jpatransactional.domain.TestMember;
+import study.jpatransactional.propagation.dao.TestMemberRepository;
+import study.jpatransactional.propagation.domain.TestMember;
 
 @Service
 @RequiredArgsConstructor

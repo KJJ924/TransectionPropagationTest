@@ -1,4 +1,4 @@
-package study.jpatransactional.domain;
+package study.jpatransactional.propagation.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
