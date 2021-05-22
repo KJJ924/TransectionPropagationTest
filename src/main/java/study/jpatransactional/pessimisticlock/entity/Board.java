@@ -27,9 +27,13 @@ public class Board {
 
     private String title;
 
-    private Long boardCount;
+    private long boardCount ;
 
     public Board(String title) {
         this.title = title;
+    }
+
+    public void countUpdate() {
+        this.boardCount++;
     }
 }
