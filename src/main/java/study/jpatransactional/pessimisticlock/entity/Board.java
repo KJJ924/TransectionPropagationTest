@@ -28,4 +28,8 @@ public class Board {
     private String title;
 
     private Long boardCount;
+
+    public Board(String title) {
+        this.title = title;
+    }
 }
