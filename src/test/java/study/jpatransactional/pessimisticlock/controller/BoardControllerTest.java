@@ -13,7 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.web.servlet.MockMvc;
 import study.jpatransactional.pessimisticlock.dao.BoardRepository;
+import study.jpatransactional.pessimisticlock.dto.RequestBoard;
 import study.jpatransactional.pessimisticlock.entity.Board;
+import study.jpatransactional.pessimisticlock.event.BoardCount;
+import study.jpatransactional.pessimisticlock.event.BoardCountRepository;
 import study.jpatransactional.pessimisticlock.service.BoardService;
 
 /**
@@ -34,9 +37,14 @@ class BoardControllerTest {
     @Autowired
     BoardService boardService;
 
+    @Autowired
+    BoardCountRepository boardCountRepository;
+
     @BeforeEach
     void before() {
-        boardRepository.save(new Board("Test"));
+        RequestBoard requestBoard = new RequestBoard();
+        requestBoard.setTitle("Test");
+        boardService.save(requestBoard);
     }
 
     @Test
@@ -45,11 +53,10 @@ class BoardControllerTest {
         //given
         ExecutorService service = Executors.newFixedThreadPool(10);
         //when
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 10; i++) {
             service.execute(() -> {
                 try {
                     Board board = boardService.getBoard(1L);
-                    System.out.println(board);
                 } catch (ObjectOptimisticLockingFailureException lockingFailureException) {
                     System.out.println("충돌 !");
                 } catch (Exception e) {
@@ -59,7 +66,8 @@ class BoardControllerTest {
         }
         Thread.sleep(1000);
         //then
-        Board board = boardRepository.findById(1L).orElseThrow(RuntimeException::new);
-        assertThat(board.getBoardCount()).isEqualTo(10);
+
+        BoardCount board = boardCountRepository.findById(1L).orElseThrow(RuntimeException::new);
+        assertThat(board.getCount()).isEqualTo(10);
     }
 }
