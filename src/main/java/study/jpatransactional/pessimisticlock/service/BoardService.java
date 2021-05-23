@@ -1,7 +1,6 @@
 package study.jpatransactional.pessimisticlock.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import study.jpatransactional.pessimisticlock.dao.BoardRepository;
@@ -15,16 +14,15 @@ import study.jpatransactional.pessimisticlock.entity.Board;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class BoardService {
 
     private final BoardRepository boardRepository;
 
     @Transactional
     public Board getBoard(Long id) {
+        System.out.println(Thread.currentThread().getName());
         Board board = boardRepository.findById(id).orElseThrow(RuntimeException::new);
         board.countUpdate();
-        log.info(board.toString());
         return board;
     }
 
