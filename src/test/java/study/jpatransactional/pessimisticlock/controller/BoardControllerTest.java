@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.web.servlet.MockMvc;
 import study.jpatransactional.pessimisticlock.dao.BoardRepository;
 import study.jpatransactional.pessimisticlock.entity.Board;
@@ -27,14 +28,14 @@ class BoardControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-
     @Autowired
     BoardRepository boardRepository;
 
     @Autowired
     BoardService boardService;
+
     @BeforeEach
-    void before(){
+    void before() {
         boardRepository.save(new Board("Test"));
     }
 
@@ -44,11 +45,13 @@ class BoardControllerTest {
         //given
         ExecutorService service = Executors.newFixedThreadPool(10);
         //when
-        for (int i = 0; i < 10; i++) {
-            service.execute(()->{
+        for (int i = 0; i < 2; i++) {
+            service.execute(() -> {
                 try {
                     Board board = boardService.getBoard(1L);
                     System.out.println(board);
+                } catch (ObjectOptimisticLockingFailureException lockingFailureException) {
+                    System.out.println("충돌 !");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -22,9 +22,9 @@ public class BoardService {
     public Board getBoard(Long id) {
         System.out.println(Thread.currentThread().getName());
 
-//        Board board = boardRepository.findById(id).orElseThrow(RuntimeException::new);
+        Board board = boardRepository.findById(id).orElseThrow(RuntimeException::new);
 
-        Board board = boardRepository.findByIdForUpdate(id);
+//        Board board = boardRepository.findByIdForUpdate(id);
         board.countUpdate();
         return board;
     }
