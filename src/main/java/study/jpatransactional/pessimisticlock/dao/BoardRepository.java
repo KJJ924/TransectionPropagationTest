@@ -1,6 +1,9 @@
 package study.jpatransactional.pessimisticlock.dao;
 
+import javax.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
 import study.jpatransactional.pessimisticlock.entity.Board;
 
 /**
@@ -9,6 +12,9 @@ import study.jpatransactional.pessimisticlock.entity.Board;
  */
 
 
-public interface BoardRepository extends JpaRepository<Board,Long> {
+public interface BoardRepository extends JpaRepository<Board, Long> {
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select b from Board b where b.id = :id")
+    Board findByIdForUpdate(Long id);
 }

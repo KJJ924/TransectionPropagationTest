@@ -40,7 +40,7 @@ class BoardControllerTest {
 
     @Test
     @DisplayName("Board 요청을 n 번 호출 하는경우 조회수는 n 이 되어야함.")
-    void getBoard() {
+    void getBoard() throws InterruptedException {
         //given
         ExecutorService service = Executors.newFixedThreadPool(10);
         //when
@@ -54,8 +54,8 @@ class BoardControllerTest {
                 }
             });
         }
+        Thread.sleep(1000);
         //then
-
         Board board = boardRepository.findById(1L).orElseThrow(RuntimeException::new);
         assertThat(board.getBoardCount()).isEqualTo(10);
     }
