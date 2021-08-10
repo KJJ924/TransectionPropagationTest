@@ -25,13 +25,13 @@ public class AggregateRootCascadeTestRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Order order = Order.builder().orderNumber("A1234").build();
-
         Item item = Item.builder()
             .name("testItem")
             .price(10000)
             .build();
         OrderItem orderItem = OrderItem.builder().item(item).build();
         order.addOrderItem(orderItem);
+
         orderRepository.save(order);
     }
 }

@@ -1,16 +1,11 @@
 package study.jpatransactional.aggregate.order.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,9 +26,7 @@ public class Order {
 
     private String orderNumber;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
-    private final List<OrderItem> orderItems = new ArrayList<>();
+    private final OrderItemList itemList = new OrderItemList();
 
     @CreationTimestamp
     private LocalDateTime createAt;
@@ -44,6 +37,13 @@ public class Order {
     }
 
     public void addOrderItem(OrderItem orderItem){
-        orderItems.add(orderItem);
+       itemList.addOrderItem(orderItem);
+    }
+
+    public int totalPrice(){
+        return itemList.getTotalPrice();
+    }
+    public String menuNameList(){
+        return itemList.menuNameList();
     }
 }
